@@ -92,7 +92,7 @@
  ┣ 📜 07_bluetooth_lcd.ino
  ┣ 📜 08_bluetooth_relay.ino
  ┣ 📄 README.md
-
+```
 ## 📲 Mobile App for Bluetooth Control
 
 You can use any free Android app like **“Serial Bluetooth Terminal”** or **“Bluetooth Electronics”** from the Play Store to communicate with the HC-05 Bluetooth module.
