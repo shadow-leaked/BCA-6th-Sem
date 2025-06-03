@@ -17,7 +17,7 @@
 | 3   | [🌒 LDR + LED (Night Lamp)](#3-interfacing-light-dependent-resistor-ldr-and-led--automatic-night-lamp)       | LDR, Resistor, LED               | 🟢 Easy    |
 | 4   | [🌡️ Temperature & Humidity Sensor](#4-interfacing-temperature-sensorlm35-andor-humidity-sensor-eg-dht11)     | LM35 or DHT11/DHT22              | 🟡 Medium  |
 | 5   | [📺 LCD Display Interface](#5-interfacing-liquid-crystal-displaylcd--display-data-generated-by-sensor)       | 16x2 LCD                         | 🟡 Medium  |
-| 6   | [🟢 MQ135 Air Quality + LCD + LED](#6-interfacing-air-quality-sensor-eg-mq135--lcd--led-warning-system)      | MQ135, LCD, LED                  | 🟡 Medium  |
+| 6   | [🟢 MQ135 Air Quality + LCD ](#6-interfacing-air-quality-sensor-eg-mq135--lcd--led-warning-system)      | MQ135, LCD                  | 🟡 Medium  |
 | 7   | [📲 Bluetooth HC-05 + LCD](#7-interfacing-bluetooth-module-eg-hc05--receive-data--display-on-lcd)            | HC-05, LCD                       | 🟠 Hard    |
 | 8   | [🏠 Bluetooth + Relay Home Automation](#8-interfacing-relay-module--bluetooth-based-home-automation)         | Relay Module, HC-05              | 🔴 Advanced |
 
@@ -58,8 +58,8 @@
 
 ---
 
-## 6. Interfacing Air Quality Sensor (MQ135) – Display on LCD + Warning LED
-**Objective:** Detect poor air quality, display data and trigger LED if unsafe.  
+## 6. Interfacing Air Quality Sensor (MQ135) – Display on LCD 
+**Objective:** Detect poor air quality, display data. 
 **Skills:** Analog sensors, environmental monitoring, alert logic  
 🧪 Code File: `06_mq135_lcd_led.ino`
 
@@ -88,7 +88,37 @@
  ┣ 📜 03_ldr.ino
  ┣ 📜 04_dht22.ino
  ┣ 📜 05_lcd_display.ino
- ┣ 📜 06_mq135_lcd_led.ino
+ ┣ 📜 06_mq135_lcd.ino
  ┣ 📜 07_bluetooth_lcd.ino
  ┣ 📜 08_bluetooth_relay.ino
  ┣ 📄 README.md
+
+## 📲 Mobile App for Bluetooth Control
+
+You can use any free Android app like **“Serial Bluetooth Terminal”** or **“Bluetooth Electronics”** from the Play Store to communicate with the HC-05 Bluetooth module.
+
+---
+
+## 🛠️ Board Compatibility
+
+| Board                 | Status                                     |
+|----------------------|--------------------------------------------|
+| Arduino UNO          | ✅ Tested                                   |
+| Arduino UNO R4       | ⚠️ Use `DHT_U`-compatible libraries         |
+| Arduino Nano         | ✅ Supported                                |
+| Arduino Mega 2560    | ✅ Supported                                |
+
+---
+
+## 🧠 Learn More
+
+- [DHT Library for Arduino](https://github.com/adafruit/DHT-sensor-library)
+- [MQ135 Datasheet](https://components101.com/sensors/mq135-gas-sensor)
+- [HC-05 AT Commands Guide](https://www.electronicwings.com/nodemcu/hc-05-bluetooth-module)
+
+---
+
+## 🧑‍💻 Contributing
+
+Contributions and forks are welcome!  
+Feel free to submit issues, bug reports, or feature requests using the **Issues** tab of this repository.
