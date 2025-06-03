@@ -110,15 +110,13 @@ You can use any free Android app like **“Serial Bluetooth Terminal”** or **�
 
 ---
 
-## 🧠 Learn More
-
-- [DHT Library for Arduino](https://github.com/adafruit/DHT-sensor-library)
-- [MQ135 Datasheet](https://components101.com/sensors/mq135-gas-sensor)
-- [HC-05 AT Commands Guide](https://www.electronicwings.com/nodemcu/hc-05-bluetooth-module)
-
----
-
 ## 🧑‍💻 Contributing
 
 Contributions and forks are welcome!  
 Feel free to submit issues, bug reports, or feature requests using the **Issues** tab of this repository.
+
+---
+
+## © License
+This project is licensed under the **MIT License**.  
+Maintained with ❤️ by **Aditya Sharma/ Drone Electronics**
