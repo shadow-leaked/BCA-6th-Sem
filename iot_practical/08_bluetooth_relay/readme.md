@@ -62,7 +62,7 @@ Create a smart wireless device controller using **Arduino**, **Bluetooth (HC-05)
 
 | LED Pin        | Arduino Pin      | Notes                              |
 |----------------|------------------|------------------------------------|
-| Anode (+)      | D7 via 220Ω      | Connect D7 through 220Ω resistor   |
+| Anode (+)      | 5v via 220Ω      | Connect 5V through 220Ω resistor   |
 | Cathode (–)    | GND              | Ground                             |
 
 #### For Relay Module (optically isolated):
