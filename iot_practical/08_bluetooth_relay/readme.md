@@ -1,23 +1,23 @@
 # 📡 Practical 8: Bluetooth-Based Device Control with LCD Feedback using Arduino UNO R3
 
-> Control electronic devices wirelessly using a mobile app, Bluetooth module (HC-05), and Arduino UNO R4. The system receives commands via Bluetooth, toggles a device (LED/Relay), and displays live status on an LCD screen.
+Create a smart wireless device controller using **Arduino**, **Bluetooth (HC-05)**, and a **16x2 LCD** to receive commands from your mobile phone and toggle an output device like an **LED** or **Relay Module**. This practical demonstrates basic home automation with real-time feedback.
 
 ---
 
 ## 🧰 Components Required
 
-| Component                | Quantity | Purpose                                                  |
-|--------------------------|----------|-----------------------------------------------------------|
-| Arduino UNO R3           | 1        | Microcontroller platform                                 |
-| HC-05 Bluetooth Module   | 1        | Wireless serial communication                            |
-| 16x2 LCD Display         | 1        | Displays incoming command/status                         |
-| 10kΩ Potentiometer       | 1        | Adjust LCD contrast                                      |
-| LED or Relay Module      | 1        | Output device (visual indicator or appliance controller) |
-| 220Ω Resistor            | 1        | Current limiting for LED (skip if using relay)           |
-| 1kΩ + 2kΩ Resistors      | 1 each   | Voltage divider for HC-05 RX pin                         |
-| Jumper Wires             | Several  | For interconnections                                     |
-| Breadboard               | 1        | Prototyping platform                                     |
-| Android Smartphone       | 1        | To send Bluetooth commands                               |
+| Component              | Quantity | Purpose                                              |
+|------------------------|----------|------------------------------------------------------|
+| Arduino UNO R3         | 1        | Microcontroller platform                             |
+| HC-05 Bluetooth Module | 1        | Wireless serial communication                        |
+| 16x2 LCD Display       | 1        | Visual display for commands/status                  |
+| 10kΩ Potentiometer     | 1        | LCD contrast adjustment                              |
+| LED or Relay Module    | 1        | Output device (indicator or appliance switch)        |
+| 220Ω Resistor (LED)    | 1        | Current limiting for LED                             |
+| 1kΩ + 2kΩ Resistors    | 1 each   | Voltage divider for HC-05 RX protection              |
+| Jumper Wires           | Several  | For interconnections                                 |
+| Breadboard             | 1        | Circuit prototyping                                  |
+| Android Smartphone     | 1        | To send Bluetooth commands                           |
 
 ---
 
@@ -25,97 +25,109 @@
 
 ### 🔵 HC-05 Bluetooth Module
 
-| HC-05 Pin | Arduino Pin        | Details                                 |
-|-----------|--------------------|-----------------------------------------|
-| VCC       | 5V                 | Power supply                            |
-| GND       | GND                | Common ground                           |
-| TXD       | D9                 | RX for Arduino (read data)              |
-| RXD       | D8 via voltage divider | TX from Arduino (write via 3.3V)    |
+| HC-05 Pin | Arduino Pin       | Description                                |
+|-----------|-------------------|--------------------------------------------|
+| VCC       | 5V                | Power supply                               |
+| GND       | GND               | Common ground                              |
+| TXD       | D9 (Arduino RX)   | Receives serial data from HC-05            |
+| RXD       | D8 (via voltage divider) | Arduino TX → HC-05 RX (use 3.3V divider) |
 
-> Use a voltage divider with 1kΩ + 2kΩ to reduce 5V TX to 3.3V safe for HC-05 RX.
+> ⚠️ Use a voltage divider (1kΩ + 2kΩ) between Arduino TX and HC-05 RX to step down from 5V to ~3.3V.
 
 ---
 
 ### 🟢 LCD Display (16x2)
 
-| LCD Pin | Arduino Pin        | Description                  |
-|---------|--------------------|------------------------------|
-| RS      | D12                | Register Select              |
-| E       | D11                | Enable                       |
-| D4      | D5                 | Data 4                       |
-| D5      | D4                 | Data 5                       |
-| D6      | D3                 | Data 6                       |
-| D7      | D2                 | Data 7                       |
-| VSS     | GND                | Ground                       |
-| VDD     | 5V                 | Power                        |
-| V0      | Potentiometer Mid  | LCD contrast adjustment      |
-| A       | 5V                 | LCD backlight (optional)     |
-| K       | GND                | LCD backlight (optional)     |
+| LCD Pin | Arduino Pin | Description               |
+|---------|-------------|---------------------------|
+| RS      | D12         | Register Select           |
+| E       | D11         | Enable                    |
+| D4      | D5          | Data 4                    |
+| D5      | D4          | Data 5                    |
+| D6      | D3          | Data 6                    |
+| D7      | D2          | Data 7                    |
+| VSS     | GND         | Ground                    |
+| VDD     | 5V          | Power supply              |
+| V0      | Pot center  | Contrast via potentiometer|
+| A       | 5V          | LCD backlight (+)         |
+| K       | GND         | LCD backlight (–)         |
+
+> 🎛️ Connect the outer terminals of the potentiometer to 5V and GND, center pin to LCD V0.
 
 ---
 
 ### 🔴 Output Device (LED or Relay)
 
-| Device Pin | Arduino Pin | Notes                                          |
-|------------|-------------|------------------------------------------------|
-| IN (Relay) / Anode (LED) | D7          | Signal pin to activate output          |
-| GND        | GND         | Common ground                                 |
-| VCC (Relay only) | 5V     | Power for opto-isolated relay module (if used)|
+#### For LED:
+
+| LED Pin        | Arduino Pin      | Notes                              |
+|----------------|------------------|------------------------------------|
+| Anode (+)      | D7 via 220Ω      | Connect D7 through 220Ω resistor   |
+| Cathode (–)    | GND              | Ground                             |
+
+#### For Relay Module (optically isolated):
+
+| Relay Pin | Arduino Pin | Description                          |
+|-----------|-------------|--------------------------------------|
+| IN        | D7          | Trigger pin from Arduino             |
+| VCC       | 5V          | Power the relay module               |
+| GND       | GND         | Common ground with Arduino           |
+
+> 💡 Choose either LED or Relay depending on your output requirement. Don’t connect both to D7 at once.
 
 ---
 
 ## 📲 Mobile App Configuration
 
-1. Install **Serial Bluetooth Terminal** (free) from Google Play Store.
-2. Pair your HC-05 with your phone. Default pairing code is `1234` or `0000`.
-3. Open the app and connect to the HC-05.
-4. Set line ending to **None** to avoid extra characters.
-5. Send:
-   - `"1"` → Turns ON LED/Relay
-   - `"0"` → Turns OFF LED/Relay
+1. Install: [**Serial Bluetooth Terminal**](https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal)
+2. Pair with **HC-05** (default password: `1234` or `0000`)
+3. Set "Line Ending" to **None** in app settings
+4. Send the following commands:
+   - `"1"` → Turns **ON** the device (LED/Relay)
+   - `"0"` → Turns **OFF** the device (LED/Relay)
 
 ---
 
 ## 🧠 How It Works
 
-- The Arduino listens for serial input over Bluetooth.
-- When a valid command (`"1"` or `"0"`) is received, it:
-  - Toggles the connected device (LED or Relay).
-  - Displays the command/status on the LCD.
-- This creates a basic **wireless home automation** or **IoT device controller**.
+- Arduino listens for incoming serial commands from your smartphone via HC-05.
+- Valid commands (`1`, `0`) are parsed:
+  - `"1"`: Turns ON output device.
+  - `"0"`: Turns OFF output device.
+- Received data is shown in real-time on the LCD screen for user feedback.
 
 ---
 
 ## 🧪 Learning Objectives
 
-- Understand Bluetooth serial communication (HC-05).
-- Parse and handle data over `SoftwareSerial`.
-- Drive an external output (LED/Relay) using Arduino logic.
-- Display dynamic data on LCD using the `LiquidCrystal` library.
-- Interface sensors and actuators to build real-time IoT solutions.
+- Understand and implement **Bluetooth serial communication**.
+- Interface and control **actuators (LED/Relay)** via digital pins.
+- Display real-time feedback using **LCD**.
+- Learn use of **voltage dividers** to protect 3.3V modules.
+- Build foundational knowledge for **IoT-based home automation**.
 
 ---
 
 ## 🛡️ Safety Tips (for Relay Users)
 
-- Use **opto-isolated relays** when switching AC.
-- Ensure **no direct human contact** with high-voltage circuits.
-- Keep Arduino (low voltage) side isolated from AC (high voltage) side.
+- Always use **opto-isolated** relay modules when switching **AC appliances**.
+- Do **not touch** high-voltage circuits while powered.
+- Keep **Arduino and AC circuits electrically isolated**.
 
 ---
 
 ## ✅ Board Compatibility
 
-| Arduino Board   | Status     |
-|------------------|------------|
-| UNO R3           | ✅ Tested  |
-| UNO R4           | ✅ Fully compatible (Renesas) |
-| Nano             | ✅ Compatible |
-| Mega 2560        | ✅ Compatible |
+| Arduino Board   | Status                                |
+|------------------|----------------------------------------|
+| UNO R3           | ✅ Fully tested and supported           |
+| UNO R4 (Renesas) | ✅ Compatible (use SoftwareSerial)      |
+| Nano             | ✅ Works fine with same wiring          |
+| Mega 2560        | ✅ Compatible (use different Serial pins) |
 
 ---
 
-
 ## © License
+
 This project is licensed under the **MIT License**.  
-Maintained with ❤️ by **Aditya Sharma/ Drone Electronics**
+Maintained with ❤️ by **Aditya Sharma / Drone Electronics**
