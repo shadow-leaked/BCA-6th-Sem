@@ -1,108 +1,88 @@
-# 🔥 Practical 6: Interfacing MQ135 Gas Sensor with LED & Buzzer Alert on Arduino UNO R3
+# 🌫️ MQ135 Air Quality Monitor with LCD and LED Indicator
 
-> This practical demonstrates how to detect harmful gas levels using the MQ135 sensor and provide visual (LED) and audible (buzzer) alerts. If the gas concentration crosses a harmful threshold, a red LED lights up and the buzzer rings; otherwise, a green LED indicates safe air quality.
+This project reads air quality from an MQ135 sensor, displays the gas level and status (Good, Moderate, Bad) on a 16x2 LCD, and turns on a red LED when the air quality is bad.
 
 ---
 
-## 🧰 Components Required
+## ✅ Components Required
 
-| Component               | Quantity | Purpose                                                        |
-|-------------------------|----------|----------------------------------------------------------------|
-| Arduino UNO R3          | 1        | Microcontroller platform                                       |
-| MQ135 Gas Sensor        | 1        | Detects harmful gases (NH₃, CO₂, benzene, etc.)                |
-| Red LED                 | 1        | Visual alert for harmful gas                                   |
-| Green LED               | 1        | Visual indicator for safe air                                  |
-| Buzzer (active/passive) | 1        | Audible alert on harmful gas detection                         |
-| 220Ω Resistor           | 2        | Current limiting resistors for LEDs                            |
-| Jumper Wires            | Several  | For connections                                                |
-| Breadboard              | 1        | For prototyping                                                |
+| Component            | Quantity | Purpose                            |
+|----------------------|----------|------------------------------------|
+| Arduino UNO R3       | 1        | Microcontroller platform           |
+| MQ135 Gas Sensor     | 1        | Air quality detection              |
+| 16x2 LCD Display     | 1        | Shows gas level and status         |
+| 220Ω Resistor        | 1        | Current limiting for LED           |
+| Red LED              | 1        | Lights up on poor air quality      |
+| Jumper Wires         | Several  | Electrical connections             |
+| Breadboard           | 1        | Circuit prototyping                |
 
 ---
 
 ## 🔌 Circuit Connections
 
-### 🟣 MQ135 Gas Sensor
+### 🟣 MQ135 Sensor
 
-| MQ135 Pin | Arduino Pin | Description                     |
-|-----------|-------------|---------------------------------|
-| VCC       | 5V          | Power supply                    |
-| GND       | GND         | Common ground                   |
-| AOUT      | A0          | Analog signal output            |
-
----
-
-### 🔴 Red & Green LEDs
-
-| LED        | Arduino Pin | Notes                                 |
-|------------|-------------|---------------------------------------|
-| Red LED +  | D7          | Via 220Ω resistor                     |
-| Red LED –  | GND         | Common ground                         |
-| Green LED +| D6          | Via 220Ω resistor                     |
-| Green LED –| GND         | Common ground                         |
+| MQ135 Pin | Arduino Pin | Description               |
+|-----------|-------------|---------------------------|
+| VCC       | 5V          | Power supply              |
+| GND       | GND         | Ground connection         |
+| AOUT      | A0          | Analog output to Arduino  |
 
 ---
 
-### 🔊 Buzzer
+### 🟢 LCD Display (16x2)
 
-| Buzzer Pin | Arduino Pin | Description                          |
-|------------|-------------|--------------------------------------|
-| +          | D5          | Can use 100Ω resistor for passive buzzers |
-| –          | GND         | Connect to Arduino ground            |
-
----
-
-## 📋 Functional Description
-
-- The **MQ135 sensor** continuously monitors gas concentration.
-- The analog value is read from pin **A0**.
-- When the gas level crosses a preset **threshold (e.g., 400)**:
-  - 🔴 **Red LED turns ON**
-  - 🔊 **Buzzer starts beeping**
-  - ✅ **Green LED turns OFF**
-- Otherwise:
-  - 🟢 **Green LED stays ON**
-  - 🔕 **Red LED and buzzer stay OFF**
+| LCD Pin | Arduino Pin | Description                  |
+|---------|-------------|------------------------------|
+| RS      | D12         | Register Select              |
+| E       | D11         | Enable                       |
+| D4      | D5          | Data 4                       |
+| D5      | D4          | Data 5                       |
+| D6      | D3          | Data 6                       |
+| D7      | D2          | Data 7                       |
+| VSS     | GND         | Ground                       |
+| VDD     | 5V          | Power                        |
+| V0      | Potentiometer Mid | LCD contrast         |
+| A       | 5V          | LCD backlight (optional)     |
+| K       | GND         | LCD backlight (optional)     |
 
 ---
 
-## 🧠 Learning Objectives
+### 🔴 LED Indicator
 
-- Understand how to read analog data from a gas sensor.
-- Interface multiple output devices with sensor logic (LEDs & Buzzer).
-- Implement conditional response based on sensor thresholds.
-- Build real-world safety alert systems using Arduino.
-
----
-
-## ✅ Board Compatibility
-
-| Arduino Board | Status                          |
-|----------------|----------------------------------|
-| UNO R3         | ✅ Tested                        |
-| UNO R4         | ✅ Fully Compatible (Renesas)    |
-| Nano           | ✅ Compatible                    |
-| Mega 2560      | ✅ Compatible                    |
+| LED Pin       | Arduino Pin | Description                        |
+|---------------|-------------|------------------------------------|
+| Anode (+)     | D7 (via 220Ω)| Red LED lights up on bad air       |
+| Cathode (-)   | GND         | Ground                             |
 
 ---
 
-## 🛠️ Libraries Used
+## 🧠 How It Works
 
-> ❌ No external libraries required for this practical.
-
----
-
-## 🧪 Best Practices
-
-- Allow the MQ135 sensor to **warm up for 1–2 minutes** for stable readings.
-- Test in a ventilated area and **avoid flames or toxic fumes** during experiments.
-- Use **Serial Monitor** to observe real-time analog gas levels for calibration.
+- MQ135 outputs an analog voltage based on air quality.
+- The Arduino reads this value and classifies the air quality as:
+  - **≤ 200**: Good  
+  - **201–400**: Moderate  
+  - **> 400**: Bad (🔴 LED turns ON)
+- Status is displayed on the **16x2 LCD** and also printed to the **Serial Monitor**.
 
 ---
 
-## 🧑‍💻 Contributing
+## 📋 Tips
 
-Your suggestions and contributions are welcome.  
-Fork the repo or submit issues if you have ideas for improvements.
+- Let the **MQ135 warm up for 1–2 minutes** before taking readings.
+- Avoid placing the sensor near **air vents, fans, or AC units** during testing.
+- **Adjust the thresholds** depending on your specific indoor environment.
+
+---
+
+## ✅ Compatibility
+
+| Arduino Board  | Status         |
+|----------------|----------------|
+| Arduino UNO    | ✅ Tested       |
+| Arduino Nano   | ✅ Compatible   |
+| Arduino Mega   | ✅ Compatible   |
 
 ---
 
