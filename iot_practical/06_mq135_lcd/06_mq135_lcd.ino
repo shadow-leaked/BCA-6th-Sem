@@ -3,11 +3,13 @@
 // LCD pin connections: RS, E, D4, D5, D6, D7
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
-// Pin definitions
+// Pins
 const int gasSensorPin = A0;  // MQ135 analog output
-const int ledPin = 7;         // LED for alert
+const int ledPin = 7;         // Red LED for bad air
 
-const int gasThreshold = 400; // Threshold for harmful gas
+// Thresholds (tune based on environment)
+const int goodThreshold = 200;
+const int moderateThreshold = 400;
 
 void setup() {
   pinMode(ledPin, OUTPUT);
@@ -28,11 +30,17 @@ void loop() {
   lcd.print(gasLevel);
   lcd.print("    "); // Clear old digits
 
-  if (gasLevel > gasThreshold) {
-    digitalWrite(ledPin, HIGH);
-  } else {
+  lcd.setCursor(10, 0); // Status label on first row
+  if (gasLevel <= goodThreshold) {
+    lcd.print("Good   ");
     digitalWrite(ledPin, LOW);
+  } else if (gasLevel <= moderateThreshold) {
+    lcd.print("Moderate");
+    digitalWrite(ledPin, LOW);
+  } else {
+    lcd.print("Bad    ");
+    digitalWrite(ledPin, HIGH);
   }
 
-  delay(1000); // 1 second delay between readings
+  delay(1000); // 1s delay
 }
