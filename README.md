@@ -12,12 +12,12 @@
 
 | No. | Practical Title                                                                                              | Sensors/Modules Used             | Difficulty |
 |-----|--------------------------------------------------------------------------------------------------------------|----------------------------------|------------|
-| 1   | [🔴 LED Blinking](#1-interfacing-light-emitting-diodeled--blinking-led)                                       | LED                              | 🟢 Easy    |
+| 1   | [🔴 LED Blinking](#1-interfacing-light-emitting-diodeled--blinking-led)                                      | LED                              | 🟢 Easy    |
 | 2   | [🔘 Button + LED](#2-interfacing-button-and-led--led-blinkingglow-when-button-is-pressed)                    | Push Button, LED                 | 🟢 Easy    |
 | 3   | [🌒 LDR + LED (Night Lamp)](#3-interfacing-light-dependent-resistor-ldr-and-led--automatic-night-lamp)       | LDR, Resistor, LED               | 🟢 Easy    |
 | 4   | [🌡️ Temperature & Humidity Sensor](#4-interfacing-temperature-sensorlm35-andor-humidity-sensor-eg-dht11)     | LM35 or DHT11/DHT22              | 🟡 Medium  |
 | 5   | [📺 LCD Display Interface](#5-interfacing-liquid-crystal-displaylcd--display-data-generated-by-sensor)       | 16x2 LCD                         | 🟡 Medium  |
-| 6   | [🟢 MQ135 Air Quality + LCD ](#6-interfacing-air-quality-sensor-eg-mq135--lcd--led-warning-system)      | MQ135, LCD                  | 🟡 Medium  |
+| 6   | [🟢 MQ135 Air Quality + LCD ](#6-interfacing-air-quality-sensor-eg-mq135--lcd--led-warning-system)           | MQ135, LCD                       | 🟡 Medium  |
 | 7   | [📲 Bluetooth HC-05 + LCD](#7-interfacing-bluetooth-module-eg-hc05--receive-data--display-on-lcd)            | HC-05, LCD                       | 🟠 Hard    |
 | 8   | [🏠 Bluetooth + Relay Home Automation](#8-interfacing-relay-module--bluetooth-based-home-automation)         | Relay Module, HC-05              | 🔴 Advanced |
 

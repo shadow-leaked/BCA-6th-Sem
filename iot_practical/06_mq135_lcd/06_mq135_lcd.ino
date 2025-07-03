@@ -1,41 +1,36 @@
-#include <LiquidCrystal.h>
+// Pin Definitions
+const int gasSensorPin = A0;     // MQ-135 analog output to A0
+const int redLedPin = 7;         // Red LED connected to D7
+const int greenLedPin = 6;       // Green LED connected to D6
+const int buzzerPin = 5;         // Buzzer connected to D5
 
-// Initialize LCD: RS, E, D4, D5, D6, D7
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-
-int mq135Pin = A3;        // Analog pin connected to MQ135 AOUT
-int ledPin = 8;           // Digital pin connected to LED
-int airQuality = 0;
+const int gasThreshold = 400;    // Adjust based on your environment/testing
 
 void setup() {
-  lcd.begin(16, 2);              // Set up the LCD's number of columns and rows
-  pinMode(ledPin, OUTPUT);       // Set LED pin as output
+  pinMode(redLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(gasSensorPin, INPUT);
 
-  lcd.print("Air Quality");      // Print initial message
-  delay(1000);
-  lcd.clear();
+  Serial.begin(9600);
 }
 
 void loop() {
-  airQuality = analogRead(mq135Pin);  // Read analog value from MQ135
+  int gasLevel = analogRead(gasSensorPin);
+  Serial.print("Gas Level: ");
+  Serial.println(gasLevel);
 
-  lcd.setCursor(0, 0);
-  lcd.print("AQ Value: ");
-  lcd.print(airQuality);              // Show the value on LCD
-
-  lcd.setCursor(0, 1);
-  if (airQuality > 400) {
-    lcd.print("Status: Bad Air  ");
-    digitalWrite(ledPin, HIGH);       // Turn on LED
+  if (gasLevel > gasThreshold) {
+    // Harmful gas detected
+    digitalWrite(redLedPin, HIGH);
+    digitalWrite(greenLedPin, LOW);
+    digitalWrite(buzzerPin, HIGH);
   } else {
-    digitalWrite(ledPin, LOW);        // Turn off LED
-
-    if (airQuality > 200) {
-      lcd.print("Status: Moderate ");
-    } else {
-      lcd.print("Status: Good     ");
-    }
+    // Air is clean
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(greenLedPin, HIGH);
+    digitalWrite(buzzerPin, LOW);
   }
 
-  delay(2000);  // Wait 2 seconds before next reading
+  delay(500);  // Delay for stability
 }
