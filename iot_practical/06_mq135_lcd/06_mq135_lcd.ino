@@ -1,18 +1,21 @@
-// Pin Definitions
-const int gasSensorPin = A0;     // MQ-135 analog output to A0
-const int redLedPin = 7;         // Red LED connected to D7
-const int greenLedPin = 6;       // Green LED connected to D6
-const int buzzerPin = 5;         // Buzzer connected to D5
+#include <LiquidCrystal.h>
 
-const int gasThreshold = 400;    // Adjust based on your environment/testing
+// LCD pin connections: RS, E, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// Pin definitions
+const int gasSensorPin = A0;  // MQ135 analog output
+const int ledPin = 7;         // LED for alert
+
+const int gasThreshold = 400; // Threshold for harmful gas
 
 void setup() {
-  pinMode(redLedPin, OUTPUT);
-  pinMode(greenLedPin, OUTPUT);
-  pinMode(buzzerPin, OUTPUT);
-  pinMode(gasSensorPin, INPUT);
-
+  pinMode(ledPin, OUTPUT);
+  lcd.begin(16, 2);
   Serial.begin(9600);
+
+  lcd.setCursor(0, 0);
+  lcd.print("Air Quality:");
 }
 
 void loop() {
@@ -20,17 +23,16 @@ void loop() {
   Serial.print("Gas Level: ");
   Serial.println(gasLevel);
 
+  lcd.setCursor(0, 1);
+  lcd.print("Value: ");
+  lcd.print(gasLevel);
+  lcd.print("    "); // Clear old digits
+
   if (gasLevel > gasThreshold) {
-    // Harmful gas detected
-    digitalWrite(redLedPin, HIGH);
-    digitalWrite(greenLedPin, LOW);
-    digitalWrite(buzzerPin, HIGH);
+    digitalWrite(ledPin, HIGH);
   } else {
-    // Air is clean
-    digitalWrite(redLedPin, LOW);
-    digitalWrite(greenLedPin, HIGH);
-    digitalWrite(buzzerPin, LOW);
+    digitalWrite(ledPin, LOW);
   }
 
-  delay(500);  // Delay for stability
+  delay(1000); // 1 second delay between readings
 }
