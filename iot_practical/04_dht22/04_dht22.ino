@@ -1,4 +1,4 @@
-#include <DHT.h>
+#include <DHT.h>. // library : DHT sensor library by Adafruit
 
 // Define sensor type and pin
 #define DHTPIN A0       // DHT22 data pin connected to A0
