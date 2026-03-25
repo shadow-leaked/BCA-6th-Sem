@@ -120,5 +120,3 @@ Feel free to submit issues, bug reports, or feature requests using the **Issues*
 ## © License
 This project is licensed under the **MIT License**.  
 Maintained with ❤️ by **Aditya Sharma/ NIELIT Imphal, Drone Electronics**
-
----
